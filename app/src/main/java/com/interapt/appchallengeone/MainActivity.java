@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import com.interapt.appchallengeone.databinding.ActivityMainBinding;
 import java.util.ArrayList;
@@ -23,17 +24,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(tView);
     }
 
-    private float x1;
+    private float x1, x2;
     static final int MIN_DISTANCE = 150;
+    private VelocityTracker mVelocityTracker = null;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
+        int index = event.getActionIndex();
+        int pointerId = event.getPointerId(index);
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                if (mVelocityTracker == null) {
+                    mVelocityTracker = VelocityTracker.obtain();
+                } else {
+                    mVelocityTracker.clear();
+                }
+                mVelocityTracker.addMovement(event);
                 x1 = event.getX();
                 break;
+            case MotionEvent.ACTION_MOVE:
+                mVelocityTracker.addMovement(event);
+                mVelocityTracker.computeCurrentVelocity(100);
+                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
+                break;
             case MotionEvent.ACTION_UP:
-                float x2 = event.getX();
+                x2 = event.getX();
                 float deltaX = x2 - x1;
 
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
@@ -127,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
                         binding.resetButton.setVisibility(View.VISIBLE);
                     }
                 }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                mVelocityTracker.recycle();
                 break;
         }
         return super.onTouchEvent(event);
