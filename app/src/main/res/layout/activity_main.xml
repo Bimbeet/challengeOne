@@ -171,26 +171,23 @@
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/endingV"
-        app:layout_constraintLeft_toLeftOf="@+id/endingV"
-        app:layout_constraintRight_toRightOf="@+id/endingV"
-        app:layout_constraintTop_toTopOf="@+id/endingV" />
+        app:layout_constraintBottom_toBottomOf="@+id/startingV"
+        app:layout_constraintLeft_toLeftOf="@+id/startingV"
+        app:layout_constraintRight_toRightOf="@+id/startingV"
+        app:layout_constraintTop_toTopOf="@+id/startingV" />
 
-    <View
-        android:id="@+id/endingV"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="100dp"
-        android:background="#2B2B2B"
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintBottom_toBottomOf="@+id/startingV"
+        app:layout_constraintLeft_toLeftOf="@+id/startingV"
+        app:layout_constraintRight_toRightOf="@+id/startingV"
+        app:layout_constraintTop_toTopOf="@+id/startingV" />
 
     <TextView
         android:id="@+id/swipeTextDir"
@@ -199,6 +196,21 @@
         android:text="@string/DorL"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startingV" />
+
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:onClick="onClickBtn"
+        android:text="@string/restart"
+        android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
