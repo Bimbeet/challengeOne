@@ -3,13 +3,5 @@
     <string name="start">Tap to Start</string>
     <string name="end">Tap to Show liked colors</string>
     <string name="DorL">&lt;- Dislike? or Like? -></string>
-    <string name="red">red</string>
-    <string name="blue">blue</string>
-    <string name="green">green</string>
-    <string name="orange">orange</string>
-    <string name="yellow">yellow</string>
-    <string name="gray">gray</string>
-    <string name="purple">purple</string>
-    <string name="brown">brown</string>
     <string name="restart">restart</string>
 </resources>

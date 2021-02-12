@@ -1,19 +1,25 @@
 package com.interapt.appchallengeone;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+
 import com.interapt.appchallengeone.databinding.ActivityMainBinding;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> keepList = new ArrayList<>();
-    ArrayList<String> discardList = new ArrayList<>();
+    ArrayList<ColorCards> keepList = new ArrayList<>();
+    ArrayList<ColorCards> discardList = new ArrayList<>();
+    ArrayList<ColorCards> cardsList = new ArrayList<>();
     private ActivityMainBinding binding;
 
     @Override
@@ -22,130 +28,111 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View tView = binding.getRoot();
         setContentView(tView);
+        createNewCards();
     }
 
-    private float x1, x2;
+    private void createNewCards() {
+        ColorCards redCard = new ColorCards();
+        redCard.color = "red";
+        redCard.hex = "#B30E02";
+        cardsList.add(redCard);
+        ColorCards blueCard = new ColorCards();
+        blueCard.color = "blue";
+        blueCard.hex = "#0E28BA";
+        cardsList.add(blueCard);
+        ColorCards greenCard = new ColorCards();
+        greenCard.color = "green";
+        greenCard.hex = "#08B50F";
+        cardsList.add(greenCard);
+        ColorCards orangeCard = new ColorCards();
+        orangeCard.color = "orange";
+        orangeCard.hex = "#FF9800";
+        cardsList.add(orangeCard);
+        ColorCards yellowCard = new ColorCards();
+        yellowCard.color = "yellow";
+        yellowCard.hex = "#FFEB3B";
+        cardsList.add(yellowCard);
+        ColorCards purpleCard = new ColorCards();
+        purpleCard.color = "purple";
+        purpleCard.hex = "#673AB7";
+        cardsList.add(purpleCard);
+    }
+
+    private float x1;
     static final int MIN_DISTANCE = 150;
     private VelocityTracker mVelocityTracker = null;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int index = event.getActionIndex();
-        int pointerId = event.getPointerId(index);
+//        int index = event.getActionIndex();
+//        int pointerId = event.getPointerId(index);
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                if (mVelocityTracker == null) {
-                    mVelocityTracker = VelocityTracker.obtain();
-                } else {
-                    mVelocityTracker.clear();
-                }
-                mVelocityTracker.addMovement(event);
+//                if (mVelocityTracker == null) {
+//                    mVelocityTracker = VelocityTracker.obtain();
+//                } else {
+//                    mVelocityTracker.clear();
+//                }
+//                mVelocityTracker.addMovement(event);
                 x1 = event.getX();
                 break;
-            case MotionEvent.ACTION_MOVE:
-                mVelocityTracker.addMovement(event);
-                mVelocityTracker.computeCurrentVelocity(100);
-                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
-                break;
+//            case MotionEvent.ACTION_MOVE:
+//                mVelocityTracker.addMovement(event);
+//                mVelocityTracker.computeCurrentVelocity(100);
+//                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
+//                break;
             case MotionEvent.ACTION_UP:
-                x2 = event.getX();
+                float x2 = event.getX();
                 float deltaX = x2 - x1;
 
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
+                    ColorCards mCard = cardsList.get(0);
                     if (x2 > x1) {
                         Log.d("swipe", "Left to Right swipe");
-                        if (binding.redV.getVisibility() == View.VISIBLE) {
-                            binding.redV.setVisibility(View.INVISIBLE);
-                            binding.redV.setVisibility(View.INVISIBLE);
-                            binding.blueV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.red));
-                        } else if (binding.blueV.getVisibility() == View.VISIBLE) {
-                            binding.blueV.setVisibility(View.INVISIBLE);
-                            binding.greenV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.blue));
-                        } else if (binding.greenV.getVisibility() == View.VISIBLE) {
-                            binding.greenV.setVisibility(View.INVISIBLE);
-                            binding.orangeV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.green));
-                        } else if (binding.orangeV.getVisibility() == View.VISIBLE) {
-                            binding.orangeV.setVisibility(View.INVISIBLE);
-                            binding.yellowV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.orange));
-                        } else if (binding.yellowV.getVisibility() == View.VISIBLE) {
-                            binding.yellowV.setVisibility(View.INVISIBLE);
-                            binding.grayV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.yellow));
-                        } else if (binding.grayV.getVisibility() == View.VISIBLE) {
-                            binding.grayV.setVisibility(View.INVISIBLE);
-                            binding.purpleV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.gray));
-                        } else if (binding.purpleV.getVisibility() == View.VISIBLE) {
-                            binding.purpleV.setVisibility(View.INVISIBLE);
-                            binding.brownV.setVisibility(View.VISIBLE);
-                            keepList.add(getString(R.string.purple));
-                        } else if (binding.brownV.getVisibility() == View.VISIBLE) {
-                            binding.brownV.setVisibility(View.INVISIBLE);
-                            binding.tapToEnd.setVisibility(View.VISIBLE);
-                            binding.tapToEnd.bringToFront();
-                            keepList.add(getString(R.string.brown));
-                        }
+                        keepList.add(mCard);
                     } else {
                         Log.d("swipe", "Right to Left swipe");
-                        if (binding.redV.getVisibility() == View.VISIBLE) {
-                            binding.redV.setVisibility(View.INVISIBLE);
-                            binding.redV.setVisibility(View.INVISIBLE);
-                            binding.blueV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.red));
-                        } else if (binding.blueV.getVisibility() == View.VISIBLE) {
-                            binding.blueV.setVisibility(View.INVISIBLE);
-                            binding.greenV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.blue));
-                        } else if (binding.greenV.getVisibility() == View.VISIBLE) {
-                            binding.greenV.setVisibility(View.INVISIBLE);
-                            binding.orangeV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.green));
-                        } else if (binding.orangeV.getVisibility() == View.VISIBLE) {
-                            binding.orangeV.setVisibility(View.INVISIBLE);
-                            binding.yellowV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.orange));
-                        } else if (binding.yellowV.getVisibility() == View.VISIBLE) {
-                            binding.yellowV.setVisibility(View.INVISIBLE);
-                            binding.grayV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.yellow));
-                        } else if (binding.grayV.getVisibility() == View.VISIBLE) {
-                            binding.grayV.setVisibility(View.INVISIBLE);
-                            binding.purpleV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.gray));
-                        } else if (binding.purpleV.getVisibility() == View.VISIBLE) {
-                            binding.purpleV.setVisibility(View.INVISIBLE);
-                            binding.brownV.setVisibility(View.VISIBLE);
-                            discardList.add(getString(R.string.purple));
-                        } else if (binding.brownV.getVisibility() == View.VISIBLE) {
-                            binding.brownV.setVisibility(View.INVISIBLE);
-                            binding.tapToEnd.setVisibility(View.VISIBLE);
-                            binding.tapToEnd.bringToFront();
-                            discardList.add(getString(R.string.brown));
-                        }
+                        discardList.add(mCard);
                     }
+                    cardsList.remove(0);
                 } else {
                     Log.d("swipe", "Tap");
                     if (binding.startingV.getVisibility() == View.VISIBLE) {
                         binding.startingV.setVisibility(View.INVISIBLE);
                         binding.tapToStart.setVisibility(View.INVISIBLE);
-                        binding.redV.setVisibility(View.VISIBLE);
+                        binding.cardView.setVisibility(View.VISIBLE);
+                        binding.colorText.setVisibility(View.VISIBLE);
                         binding.swipeTextDir.setVisibility(View.VISIBLE);
                     } else if (binding.tapToEnd.getVisibility() == View.VISIBLE) {
                         binding.tapToEnd.setVisibility(View.INVISIBLE);
-                        binding.display.setText(TextUtils.join(", ", keepList));
-                        binding.display.setVisibility(View.VISIBLE);
-                        binding.swipeTextDir.setVisibility(View.INVISIBLE);
-                        binding.resetButton.setVisibility(View.VISIBLE);
+                        List<String> likedList = new ArrayList<>();
+                        if (!keepList.isEmpty()) {
+                            for (ColorCards i : keepList) {
+                                likedList.add(i.color);
+                            }
+                            binding.display.setText(TextUtils.join(", ", likedList));
+                            binding.display.setVisibility(View.VISIBLE);
+                            binding.swipeTextDir.setVisibility(View.INVISIBLE);
+                            binding.resetButton.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
                 break;
-            case MotionEvent.ACTION_CANCEL:
-                mVelocityTracker.recycle();
-                break;
+//            case MotionEvent.ACTION_CANCEL:
+//                mVelocityTracker.recycle();
+//                break;
+        }
+        if (!cardsList.isEmpty()) {
+            ColorCards mainCard = cardsList.get(0);
+            binding.cardView.setBackgroundColor(Color.parseColor(mainCard.hex));
+            binding.colorText.setText(mainCard.color);
+        } else {
+            if (binding.cardView.getVisibility() == View.VISIBLE) {
+                binding.cardView.setVisibility(View.INVISIBLE);
+                binding.colorText.setVisibility(View.INVISIBLE);
+                binding.tapToEnd.setVisibility(View.VISIBLE);
+                binding.tapToEnd.bringToFront();
+            }
         }
         return super.onTouchEvent(event);
     }
@@ -153,9 +140,12 @@ public class MainActivity extends AppCompatActivity {
     public void onClickBtn(View v) {
         keepList.clear();
         discardList.clear();
+        binding.tapToEnd.setVisibility(View.INVISIBLE);
         binding.display.setVisibility(View.INVISIBLE);
         binding.resetButton.setVisibility(View.INVISIBLE);
         binding.startingV.setVisibility(View.VISIBLE);
         binding.tapToStart.setVisibility(View.VISIBLE);
+        cardsList.clear();
+        createNewCards();
     }
 }
