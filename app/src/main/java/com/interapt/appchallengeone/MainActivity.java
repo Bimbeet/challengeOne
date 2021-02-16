@@ -58,29 +58,33 @@ public class MainActivity extends AppCompatActivity {
         cardsList.add(purpleCard);
     }
 
-    private float x1;
+    private float x1, translationX, firstX;
     static final int MIN_DISTANCE = 150;
     private VelocityTracker mVelocityTracker = null;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-//        int index = event.getActionIndex();
-//        int pointerId = event.getPointerId(index);
+        int index = event.getActionIndex();
+        int pointerId = event.getPointerId(index);
+        event.offsetLocation(translationX, 0);
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-//                if (mVelocityTracker == null) {
-//                    mVelocityTracker = VelocityTracker.obtain();
-//                } else {
-//                    mVelocityTracker.clear();
-//                }
-//                mVelocityTracker.addMovement(event);
+                firstX = event.getRawX();
+                if (mVelocityTracker == null) {
+                    mVelocityTracker = VelocityTracker.obtain();
+                } else {
+                    mVelocityTracker.clear();
+                }
+                mVelocityTracker.addMovement(event);
                 x1 = event.getX();
                 break;
-//            case MotionEvent.ACTION_MOVE:
-//                mVelocityTracker.addMovement(event);
+            case MotionEvent.ACTION_MOVE:
+                translationX += event.getRawX() - firstX;
+                binding.cardView.setTranslationX(translationX / 2);
+                mVelocityTracker.addMovement(event);
 //                mVelocityTracker.computeCurrentVelocity(100);
 //                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
-//                break;
+                break;
             case MotionEvent.ACTION_UP:
                 float x2 = event.getX();
                 float deltaX = x2 - x1;
@@ -118,9 +122,9 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
-//            case MotionEvent.ACTION_CANCEL:
-//                mVelocityTracker.recycle();
-//                break;
+            case MotionEvent.ACTION_CANCEL:
+                mVelocityTracker.recycle();
+                break;
         }
         if (!cardsList.isEmpty()) {
             ColorCards mainCard = cardsList.get(0);
