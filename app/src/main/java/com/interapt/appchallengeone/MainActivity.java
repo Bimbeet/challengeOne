@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case MotionEvent.ACTION_MOVE:
                 translationX += event.getRawX() - firstX;
-                binding.cardView.setX(translationX);
+                binding.cardView.setX(translationX / 3);
                 mVelocityTracker.addMovement(event);
 //                mVelocityTracker.computeCurrentVelocity(100);
 //                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
